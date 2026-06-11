@@ -1,0 +1,68 @@
+1.wget https://raw.githubusercontent.com/trickest/resolvers/main/resolvers.txt
+
+
+
+2.wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-5000.txt
+
+
+
+3.puredns bruteforce subdomains-top1million-5000.txt example.com \
+    -r resolvers.txt \
+    --write valid_subs.txt
+
+
+
+4.puredns bruteforce wordlist.txt example.com -r resolvers.txt \
+    --write valid_subs.txt \
+    --rate-limit 5000 \
+    -t 100
+
+
+5.puredns resolve potential_subs.txt -r resolvers.txt --write valid_subs.txt
+
+
+
+6.cat potential_subs.txt | puredns resolve - -r resolvers.txt --write valid_subs.txt
+
+
+
+7.massdns -r resolvers.txt -t A -o S potential_subs.txt -w massdns_out.txt
+
+
+
+8.puredns resolve massdns_out.txt -r resolvers.txt --write final_valid.txt
+
+
+
+
+9.puredns bruteforce wordlist.txt example.com -r resolvers.txt --skip-wildcard-check
+
+
+
+
+10.puredns bruteforce wordlist.txt example.com -r resolvers.txt \
+    --rate-limit 3000
+
+
+
+11.puredns resolve potential_subs.txt -r resolvers.txt --json --write output.json
+
+
+
+12.# 1. Initial passive enumeration
+subfinder -d example.com -o passive.txt
+
+# 2. Brute-force additional subdomains
+puredns bruteforce wordlist.txt example.com -r resolvers.txt -w brute.txt
+
+# 3. Merge and remove duplicates
+cat passive.txt brute.txt | sort -u > all_subs.txt
+
+# 4. Generate permutations
+dnsgen all_subs.txt | puredns resolve - -r resolvers.txt -w final_subs.txt
+
+# 5. Final list ready
+cat final_subs.txt
+
+
+
