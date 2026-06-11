@@ -1,0 +1,133 @@
+1.curl https://httpbin.org/get
+
+
+2.curl -o output.html https://example.com
+
+
+
+3.curl -O https://example.com/index.html
+
+
+
+4.curl -I https://example.com
+
+
+
+5.curl -i https://example.com
+
+
+6.curl -s https://example.com
+
+
+7.curl -sS https://example.com
+
+
+8.curl -L https://httpbin.org/redirect/2
+
+
+9.curl -X GET https://api.example.com/users
+
+
+
+10.curl -X POST -d "name=John&age=30" https://httpbin.org/post
+
+
+
+11.curl -X POST -H "Content-Type: application/json" -d '{"name":"John","age":30}' https://httpbin.org/post
+
+
+
+12.curl -X PUT -d "updated data" https://api.example.com/resource/1
+
+
+13.curl -X DELETE https://api.example.com/resource/1
+
+
+14.curl -d @data.txt https://httpbin.org/post
+
+
+
+15.curl --data-urlencode "name=John Doe" https://httpbin.org/post
+
+
+
+16.curl -H "Authorization: Bearer YOUR_TOKEN" -H "Accept: application/json" https://api.example.com/user
+
+
+
+17.curl -A "Mozilla/5.0" https://example.com
+
+
+
+18.curl -O https://example.com/bigfile.zip
+
+
+
+19.curl -C - -O https://example.com/bigfile.zip
+
+
+20.curl -F "file=@/home/user/photo.jpg" https://httpbin.org/post
+
+
+
+21.curl -x http://proxy.example.com:8080 https://example.com
+
+
+
+22.curl -u username:password https://api.example.com/secure
+
+
+
+23.curl --limit-rate 100k https://example.com/largefile
+
+
+
+24.curl --connect-timeout 10 --max-time 30 https://example.com
+
+
+
+25.curl -b "name=value" https://example.com
+
+
+
+26.curl -k https://self-signed.badssl.com
+
+
+
+27.curl -v https://example.com
+
+
+28.curl --trace-ascii trace.txt https://example.com
+
+
+
+29.curl -O https://example.com/file1.txt -O https://example.com/file2.txt
+
+
+
+30.curl --dns-servers 8.8.8.8 https://example.com
+
+
+31.curl --keepalive-time 60 https://example.com
+
+
+32.curl --data-binary @binaryfile.bin https://httpbin.org/post
+
+
+33.curl --progress-bar -O https://example.com/file
+
+
+34.curl -H "If-None-Match: \"686897696a7c876b7e\"" https://example.com/page
+
+
+35.curl --http2 https://nghttp2.org
+curl --http1.1 https://example.com
+
+
+36.curl -X POST https://api.github.com/repos/USER/REPO/issues \
+  -H "Authorization: token ghp_xxxxx" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -d '{"title":"Found a bug","body":"Description here"}'
+
+
+
