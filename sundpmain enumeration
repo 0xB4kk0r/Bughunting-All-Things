@@ -1,0 +1,57 @@
+1.subfinder -d aarong.com -o subfinder_initial.txt
+
+2.assetfinder --subs-only aarong.com | tee assetfinder.txt
+
+3.amass enum -passive -d aarong.com -o amass_passive.txt
+
+4.curl -s "https://crt.sh/?q=%.aarong.com&output=json" | jq -r '.[].name_value' | tr '\n' ',' | tr ',' '\n' | grep -v '[*]' | sort -u > crtsh.txt
+
+
+5.chaos -d aarong.com -o chaos.txt
+
+
+6.echo "https://aarong.com" | gau --subs | unfurl domains | sort -u >> wayback_subs.txt
+
+7.cat subfinder_initial.txt assetfinder.txt amass_passive.txt crtsh.txt chaos.txt wayback_subs.txt | sort -u > all_subs_passive.txt
+
+8.dig A xyznonexist12345.aarong.com +short
+
+9.puredns resolve all_subs_passive.txt -r resolvers.txt --wildcard-threads 50 -o resolved_passive.txt
+
+10.cat resolved_passive.txt | httpx -sc -title -location -o httpx_passive.csv
+
+
+Active Brute Force:
+
+11.shuffledns -d aarong.com -w huge_wordlist.txt -r resolvers.txt -wt 30 -mode bruteforce -wildcard-ip 23.21.11.45 -o brute_out.txt
+
+12.puredns resolve brute_out.txt -r resolvers.txt -o brute_resolved.txt
+cat brute_resolved.txt | httpx -sc -title -o brute_http.csv
+
+
+13.cat resolved_passive.txt brute_resolved.txt | sort -u > known_resolved.txt
+
+
+14.gotator -sub known_resolved.txt -perm seed_permutations.txt -depth 1 -numbers 10 -mindup -md -o perms.txt
+
+15.alterx -enrich -list known_resolved.txt -o perms_altered.txt
+
+16.puredns resolve perms.txt -r resolvers.txt -o perms_resolved.txt
+
+17.amass intel -org "Aarong" -o aarong_org.txt
+
+18.whois aarong.com | grep -i "inetnum\|NetRange\|CIDR"
+
+
+19.echo -e "103.21.7.0/24\n203.112.193.0/24" | mapcidr -silent | dnsx -ptr -resp-only -o rdns.txt
+
+
+20.grep 'aarong.com' rdns.txt | sort -u >> reverse_subs.txt
+
+
+21.subfinder -d aarong.com -o new_daily.txt
+
+22.cat new_daily.txt | puredns resolve -r resolvers.txt | anew known_resolved.txt | notify
+
+23.cat all_resolved_live.txt | httpx -silent | gowitness file -f - --screenshot-path ~/aarong_screenshots/
+
