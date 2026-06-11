@@ -1,0 +1,26 @@
+1.waybackurls xyz.com > wayback_xyz.txt
+
+2.waybackurls -no-subs xyz.com > wayback_xyz_nosubs.txt
+
+3.sort -u wayback_xyz.txt > xyz_unique.txt
+
+4.wc -l xyz_unique.txt                 # total unique URLs
+grep -c '?' xyz_unique.txt           # how many contain parameters
+grep -c '\.js' xyz_unique.txt        # JavaScript files
+grep -c '\.php' xyz_unique.txt       # PHP files
+
+5.grep -E '\.js(\?|$)' xyz_unique.txt | sort -u > js_files.txt
+
+6.grep '?' xyz_unique.txt | sort -u > urls_with_params.txt
+
+7.grep -E '\.(bak|backup|old|swp|sql|tar\.gz|zip|env|log|config|git)' xyz_unique.txt | sort -u > sensitive_files.txt
+
+8.grep -iE 'admin|login|dashboard|wp-admin|cpannel|cgi-bin|manager' xyz_unique.txt | sort -u > admin_panels.txt
+
+9.grep -iE '/api/|/v[0-9]/|/graphql|/rest' xyz_unique.txt | sort -u > api_endpoints.txt
+
+10.cat xyz_unique.txt | httpx -silent -status-code -title -tech-detect -o alive_urls.txt
+
+11.grep '200' alive_urls.txt | cut -d ' ' -f1 > alive_200.txt
+
+12.cat wayback_xyz.txt | unfurl domains | sort -u > all_subdomains.txt
